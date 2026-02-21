@@ -154,6 +154,18 @@ export default function App() {
     }
   };
 
+  const yDomain = useMemo(() => {
+    if (balanceSeries.length === 0) {
+      return [0, 1] as const;
+    }
+
+    const values = balanceSeries.map((point) => point.balance);
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const padding = Math.max((max - min) * 0.08, 50);
+    return [Math.max(0, min - padding), max + padding] as const;
+  }, [balanceSeries]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b">
